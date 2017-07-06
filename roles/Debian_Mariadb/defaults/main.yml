@@ -1,0 +1,16 @@
+---
+
+#MariaDB vars
+mariadb_version: 10.0
+mariadb_root_password: 31525
+mysql_secure_installation: true
+mariadb_client_config: "/root/.my.cnf"
+mariadb_bind_address: localhost
+mariadb_port: 3306
+
+#Zabbix_database
+zabbix_db_host: localhost
+zabbix_db_name: zabbixdb
+zabbix_db_port: "3306"
+zabbix_db_user: zabbix
+zabbix_db_pass: 31525

@@ -1,0 +1,25 @@
+---
+
+- name: Mysql_sec_inst | Root pass set
+  mysql_user: name="root" host="{{ item }}" password="{{ mariadb_root_password }}"
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: Mysql_sec_inst | Deploy /root/.my.cnf
+  template: src=root.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+  
+- name: Mysql_sec_inst | Reload privilege tables
+  shell: "mysql -e 'FLUSH PRIVILEGES;'"
+  changed_when: False
+
+- name: Mysql_sec_inst | Remove anonymous users
+  mysql_user: "name='' state=absent"
+
+- name: Mysql_sec_inst | Remove mariadb test database
+  mysql_db: "name='test' state=absent"
+
+- name: Mysql_sec_inst | Reload privilege tables
+  shell: "mysql -e 'FLUSH PRIVILEGES;'"
+  changed_when: False

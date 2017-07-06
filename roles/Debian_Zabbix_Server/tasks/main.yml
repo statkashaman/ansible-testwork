@@ -1,0 +1,11 @@
+---
+# Include common tasks
+- include: zabbix-common.yml
+
+# Include zabbix-server configuration
+- include: zabbix-server.yml
+  when: "zabbix_server_install == true"
+
+# Include zabbix-front configuration
+- include: zabbix-front.yml
+  when: "zabbix_front_install == true"

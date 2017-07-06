@@ -1,0 +1,12 @@
+---
+- name: Zabbix-common | Adding zabbix repository key
+  apt_key: url=http://repo.zabbix.com/zabbix-official-repo.key state=present
+  register: zabbix_agent_key
+
+- name: Zabbix-common | Adding zabbix repository
+  apt_repository: repo='deb http://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }} {{ ansible_lsb.codename }} main contrib non-free' state=present
+  register: zabbix_agent_list
+
+- name: Zabbix-common | Updating apt repository
+  apt: update_cache="yes"
+  when: zabbix_agent_list.changed == True or zabbix_agent_key.changed == True

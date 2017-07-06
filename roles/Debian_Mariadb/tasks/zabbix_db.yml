@@ -1,0 +1,6 @@
+---
+- name: Zabbix-DB | Creating zabbix mysql database
+  mysql_db: name="{{ zabbix_db_name }}" state=present
+  
+- name: Zabbix-DB | Creating zabbix mysql user #password encrypt in mysql_native_password
+  mysql_user: name="{{ zabbix_db_user }}" password="{{ zabbix_db_pass }}" priv='{{ zabbix_db_name }}.*:ALL' state=present

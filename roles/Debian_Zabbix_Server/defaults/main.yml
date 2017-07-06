@@ -1,0 +1,28 @@
+---
+# General options
+zabbix_version: "3.2"
+#Zabbix_db
+zabbix_db_host: localhost
+zabbix_db_name: zabbixdb
+zabbix_db_port: "3306"
+zabbix_db_user: zabbix
+zabbix_db_pass: 31525
+# Zabbix server options
+zabbix_server_install: true
+zabbix_server_port: 10051
+zabbix_server_debuglevel: 3
+zabbix_server_logfile: "/var/log/zabbix/zabbix_server.log"
+zabbix_server_logfilesize: 0
+zabbix_server_name: "{{ ansible_fqdn }}"
+zabbix_server_pidfile: "/var/run/zabbix/zabbix_server.pid"
+zabbix_server_startpollers: 5
+zabbix_server_startpollersunreachable: 1
+zabbix_server_maxhousekeeperdelete: 500
+# Zabbix php frontend options
+zabbix_front_install: true
+zabbix_front_php_date_timezone: Asia/Novosibirsk
+zabbix_front_php_max_execution_time: 300
+zabbix_front_php_max_input_time: 300
+zabbix_front_php_memory_limit: 128M
+zabbix_front_php_post_max_size: 16M
+zabbix_front_php_upload_max_filesize: 10M

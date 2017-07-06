@@ -1,0 +1,25 @@
+---
+#- name: Zabbix-server | Installing dependencies
+#  apt: pkg="{{ item }}" state=present
+#  with_items:
+#     - python-pip
+#     - libcurl3-gnutls
+
+- name: Zabbix-server | Installing Zabbix Server
+  apt: pkg="zabbix-server-mysql" state=present force=yes
+
+- name: Zabbix-server | Updating zabbix-server config 
+  template: src=zabbix-server.conf.j2 dest=/etc/zabbix/zabbix_server.conf owner=zabbix group=zabbix mode=600
+
+- name: Zabbix-server | Check if db contains tables
+  shell: "mysql {{ zabbix_db_name }} -e 'SHOW TABLES;'"
+  register: dbstatus
+  ignore_errors: True
+      
+- name: Zabbix-server | Filling mysql_db from create.gz
+  mysql_db: name="{{ zabbix_db_name }}" state=import target="/usr/share/doc/zabbix-server-mysql/create.sql.gz"
+  when: dbstatus.stdout == ''
+
+- name: Zabbix-server | Restart zabbix-server service and enabled it
+  service: name="zabbix-server" state=restarted enabled=yes
+   

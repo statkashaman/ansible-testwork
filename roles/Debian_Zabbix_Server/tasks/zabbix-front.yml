@@ -1,0 +1,32 @@
+---
+
+- name: Zabbix-front | Install Apache
+  apt: name=apache2 state=present
+
+- name: Zabbix-front | Install PHP module for Apache
+  apt: name=libapache2-mod-php5 state=present
+     
+- name: Zabbix-front | Install frontend
+  apt: pkg="zabbix-frontend-php" state=present force=yes
+
+- name: Zabbix-front | Install PHP mysql module
+  apt: pkg="php5-mysql" state=present
+
+- name: Zabbix-front | Set date.timezone for php.ini
+  lineinfile: dest="/etc/php5/apache2/php.ini" regexp="date.timezone =" line="date.timezone = {{ zabbix_front_php_date_timezone }}"
+
+- name: Zabbix-front | Adding zabbix web config
+  template: src=zabbix.conf.php.j2 dest=/etc/zabbix/web/zabbix.conf.php owner=www-data group=www-data mode=0600
+
+- name: Zabbix-front | Adding VirtualHost
+  template: src=virtualhost.conf.j2 dest=/etc/apache2/sites-available/{{ zabbix_server_name }}.conf owner=root group=root mode=0644
+
+- name: Zabbix-front | Enabling VirtualHost
+  file: src=/etc/apache2/sites-available/{{ zabbix_server_name }}.conf dest=/etc/apache2/sites-enabled/{{ zabbix_server_name }}.conf owner=root group=root mode=0644 state=link
+
+- name: Zabbix-front | Removing default site
+  file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+
+- name: Zabbix-front | Restart apache service
+  service: name="apache2" state=restarted enabled=yes
+    

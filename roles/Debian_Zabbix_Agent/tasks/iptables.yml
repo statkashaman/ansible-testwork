@@ -1,0 +1,11 @@
+- name: Netfiter-rules | CInstall iptables
+  apt: name="iptables-persistent" state=present
+
+- name: Netfiter-rules | CGenerate iptables config
+  template: src="rules.v4.j2" dest="/etc/iptables/rules.v4"
+  register: iptables_register_config
+
+- name: Netfiter-rules | CRestart iptables service
+  service: name="netfilter-persistent" state=restarted enabled=yes
+  when: iptables_register_config | changed
+

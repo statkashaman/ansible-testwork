@@ -1,0 +1,9 @@
+---
+- name: Zabbix-agent | Installing Zabbix agent (apt)
+  apt: pkg="zabbix-agent" state=present force=yes  
+
+
+- name: Zabbix-agent | Creating zabbix_agentd.conf
+  template: src=zabbix_agentd.conf.j2 dest=/etc/zabbix/zabbix_agentd.conf owner=zabbix group=zabbix mode=0644
+  notify: restart zabbix-agent
+

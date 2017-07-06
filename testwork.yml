@@ -1,0 +1,8 @@
+---
+# file: testwork.yml
+- hosts: zabbix-servers
+  user: root
+  roles:
+    - Debian_Mariadb
+    - Debian_Zabbix_Server
+    - Debian_Zabbix_Agent

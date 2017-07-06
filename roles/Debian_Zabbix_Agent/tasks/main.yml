@@ -1,0 +1,12 @@
+---
+# Include common tasks
+- include: zabbix-common.yml
+
+# Install zabbix agent
+- include: zabbix-agent.yml
+
+# Iptables rules
+- include: iptables.yml
+
+# Add host to zabbix
+- include: add_host.yml

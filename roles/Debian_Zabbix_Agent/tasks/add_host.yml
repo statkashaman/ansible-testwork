@@ -1,0 +1,25 @@
+---
+
+- name: Zabbix-api | Create a new host or update an existing host's info
+  local_action:
+    module: zabbix_host
+    server_url: "http://{{ zabbix_api_url }}/"
+    login_user: "{{ zabbix_api_user }}"
+    login_password: "{{ zabbix_api_pass }}"
+    host_name: "{{ (zabix_api_host_ip == '127.0.0.1') | ternary('Zabbix server', ansible_fqdn) }}"
+    visible_name: "{{ (zabix_api_host_ip == '127.0.0.1') | ternary('Zabbix server', ansible_fqdn) }}"
+    host_groups:
+      - "Zabbix servers"
+    link_templates:
+      - "Template App Zabbix Server"
+      - "Template OS Linux"
+    status: enabled
+    state: present
+    inventory_mode: automatic
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ (zabix_api_host_ip == '127.0.0.1') | ternary(zabix_api_host_ip, ansible_default_ipv4.address) }}"
+        dns: ""
+        port: 10050
