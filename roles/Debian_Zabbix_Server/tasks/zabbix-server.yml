@@ -1,10 +1,4 @@
 ---
-#- name: Zabbix-server | Installing dependencies
-#  apt: pkg="{{ item }}" state=present
-#  with_items:
-#     - python-pip
-#     - libcurl3-gnutls
-
 - name: Zabbix-server | Installing Zabbix Server
   apt: pkg="zabbix-server-mysql" state=present force=yes
 
